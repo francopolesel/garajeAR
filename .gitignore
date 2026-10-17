@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.env
+apps/api/.env
+uploads/
+pgdata/
+*.log
+.DS_Store
+
+apps/api/prisma/*.js
+apps/api/prisma/*.js.map
+
+
+*.tsbuildinfo
+

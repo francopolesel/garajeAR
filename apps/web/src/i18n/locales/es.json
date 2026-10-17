@@ -1,0 +1,110 @@
+{
+  "app": { "name": "GarajeAR", "tagline": "Tu garage en un solo lugar" },
+  "nav": {
+    "dashboard": "Panel", "garage": "Mi Garage", "maintenance": "Mantenimiento",
+    "energy": "Combustible y carga", "expenses": "Gastos", "reminders": "Recordatorios",
+    "documents": "Documentos", "reports": "Reportes", "settings": "Configuración", "profile": "Perfil"
+  },
+  "common": {
+    "save": "Guardar", "cancel": "Cancelar", "delete": "Eliminar", "edit": "Editar",
+    "create": "Crear", "search": "Buscar", "filter": "Filtrar", "clearFilters": "Limpiar filtros",
+    "loading": "Cargando...", "noData": "Sin datos", "confirm": "Confirmar",
+    "back": "Volver", "next": "Siguiente", "skip": "Omitir", "submit": "Enviar",
+    "yes": "Sí", "no": "No", "actions": "Acciones", "details": "Detalles",
+    "new": "Nuevo", "add": "Agregar", "upload": "Subir", "download": "Descargar",
+    "export": "Exportar", "import": "Importar", "close": "Cerrar", "retry": "Reintentar"
+  },
+  "auth": {
+    "login": "Iniciar sesión", "register": "Crear cuenta", "logout": "Cerrar sesión",
+    "email": "Correo electrónico", "password": "Contraseña", "name": "Nombre",
+    "forgotPassword": "Olvidé mi contraseña", "resetPassword": "Restablecer contraseña",
+    "noAccount": "¿No tenés cuenta?", "hasAccount": "¿Ya tenés cuenta?",
+    "loginSuccess": "Sesión iniciada", "registerSuccess": "Cuenta creada",
+    "invalidCredentials": "Credenciales inválidas", "passwordMin": "La contraseña debe tener al menos 8 caracteres"
+  },
+  "landing": {
+    "heroTitle": "Organizá tus vehículos, mantenimiento, gastos y recordatorios en un solo lugar",
+    "heroSubtitle": "GarajeAR te ayuda a llevar el control real de tu auto, moto o camioneta sin complicaciones.",
+    "ctaStart": "Comenzar gratis", "ctaLogin": "Iniciar sesión",
+    "featuresTitle": "Todo lo que necesitás", "howTitle": "Cómo funciona",
+    "privacyTitle": "Tu privacidad primero", "faqTitle": "Preguntas frecuentes"
+  },
+  "dashboard": {
+    "title": "Panel", "welcome": "Bienvenido", "activeVehicles": "Vehículos activos",
+    "upcomingReminders": "Recordatorios próximos", "overdueReminders": "Vencidos",
+    "monthExpenses": "Gastos del mes", "recentActivity": "Actividad reciente",
+    "quickActions": "Acciones rápidas", "addVehicle": "Agregar vehículo",
+    "addMaintenance": "Registrar mantenimiento", "addFuel": "Registrar combustible/carga",
+    "addExpense": "Registrar gasto", "addReminder": "Crear recordatorio", "uploadDoc": "Subir documento",
+    "expiringDocs": "Documentos por vencer", "noVehicles": "Todavía no tenés vehículos"
+  },
+  "vehicles": {
+    "title": "Mi Garage", "new": "Nuevo vehículo", "edit": "Editar vehículo",
+    "name": "Nombre", "type": "Tipo", "make": "Marca", "model": "Modelo", "year": "Año",
+    "odometer": "Odómetro", "powertrain": "Motorización", "transmission": "Transmisión",
+    "color": "Color", "vin": "VIN", "plate": "Patente/Matrícula",
+    "purchaseDate": "Fecha de compra", "purchasePrice": "Precio de compra",
+    "notes": "Notas", "archive": "Archivar", "restore": "Restaurar",
+    "deleteConfirm": "¿Eliminar este vehículo y todos sus registros?", "empty": "No tenés vehículos todavía"
+  },
+  "maintenance": {
+    "title": "Mantenimiento", "new": "Nuevo mantenimiento", "category": "Categoría",
+    "serviceDate": "Fecha de servicio", "odometer": "Odómetro", "workshop": "Taller",
+    "partsCost": "Costo de repuestos", "laborCost": "Mano de obra", "totalCost": "Costo total",
+    "currency": "Moneda", "notes": "Notas", "nextDueDate": "Próximo vencimiento",
+    "nextDueOdometer": "Próximo odómetro", "empty": "Sin mantenimientos registrados"
+  },
+  "energy": {
+    "title": "Combustible y carga", "fuelFillup": "Carga de combustible", "charging": "Carga eléctrica",
+    "quantity": "Cantidad", "unit": "Unidad", "totalCost": "Costo total", "station": "Estación/Ubicación",
+    "fullTank": "Tanque lleno", "chargingType": "Tipo de carga", "date": "Fecha", "empty": "Sin registros"
+  },
+  "expenses": {
+    "title": "Gastos", "new": "Nuevo gasto", "category": "Categoría", "amount": "Monto",
+    "currency": "Moneda", "date": "Fecha", "vehicle": "Vehículo", "paymentMethod": "Método de pago",
+    "notes": "Notas", "empty": "Sin gastos", "byCategory": "Por categoría", "byVehicle": "Por vehículo",
+    "monthly": "Mensual", "exportCsv": "Exportar CSV"
+  },
+  "reminders": {
+    "title": "Recordatorios", "new": "Nuevo recordatorio", "dueDate": "Fecha de vencimiento",
+    "dueOdometer": "Odómetro de vencimiento", "daysBefore": "Días de anticipación",
+    "status": "Estado", "upcoming": "Próximos", "dueSoon": "Próximos a vencer",
+    "overdue": "Vencidos", "completed": "Completados", "snoozed": "Pospuestos",
+    "complete": "Marcar completado", "snooze": "Posponer", "empty": "Sin recordatorios"
+  },
+  "documents": {
+    "title": "Documentos", "upload": "Subir documento", "category": "Categoría",
+    "name": "Nombre", "expiration": "Vencimiento", "issueDate": "Fecha de emisión",
+    "empty": "Sin documentos", "download": "Descargar"
+  },
+  "reports": {
+    "title": "Reportes", "spendingOverTime": "Gastos en el tiempo",
+    "byCategory": "Por categoría", "byVehicle": "Por vehículo",
+    "maintenanceCosts": "Costos de mantenimiento", "energyTrends": "Tendencias de energía",
+    "consumption": "Consumo", "costPerDistance": "Costo por distancia",
+    "insufficientData": "Datos insuficientes"
+  },
+  "settings": {
+    "title": "Configuración", "profile": "Perfil", "preferences": "Preferencias",
+    "language": "Idioma", "currency": "Moneda preferida", "distanceUnit": "Unidad de distancia",
+    "volumeUnit": "Unidad de volumen", "timeZone": "Zona horaria", "theme": "Tema",
+    "changePassword": "Cambiar contraseña", "exportData": "Exportar datos",
+    "deleteAccount": "Eliminar cuenta", "deleteConfirm": "Escribí DELETE para confirmar"
+  },
+  "onboarding": {
+    "welcome": "Bienvenido a GarajeAR", "step1": "Gestioná tus vehículos",
+    "step2": "Creá tu primer vehículo", "skip": "Omitir por ahora",
+    "finish": "Ir al panel"
+  },
+  "errors": {
+    "generic": "Ocurrió un error", "notFound": "No encontrado", "unauthorized": "No autorizado",
+    "network": "Error de red", "validation": "Datos inválidos"
+  },
+  "empty": {
+    "noVehicles": "No tenés vehículos todavía. Agregá el primero para empezar.",
+    "noMaintenance": "No hay mantenimientos registrados.",
+    "noExpenses": "No hay gastos registrados.",
+    "noReminders": "No hay recordatorios.",
+    "noDocuments": "No hay documentos."
+  }
+}

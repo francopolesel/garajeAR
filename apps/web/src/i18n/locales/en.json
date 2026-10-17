@@ -1,0 +1,110 @@
+{
+  "app": { "name": "GarajeAR", "tagline": "Your garage in one place" },
+  "nav": {
+    "dashboard": "Dashboard", "garage": "My Garage", "maintenance": "Maintenance",
+    "energy": "Fuel & Charging", "expenses": "Expenses", "reminders": "Reminders",
+    "documents": "Documents", "reports": "Reports", "settings": "Settings", "profile": "Profile"
+  },
+  "common": {
+    "save": "Save", "cancel": "Cancel", "delete": "Delete", "edit": "Edit",
+    "create": "Create", "search": "Search", "filter": "Filter", "clearFilters": "Clear filters",
+    "loading": "Loading...", "noData": "No data", "confirm": "Confirm",
+    "back": "Back", "next": "Next", "skip": "Skip", "submit": "Submit",
+    "yes": "Yes", "no": "No", "actions": "Actions", "details": "Details",
+    "new": "New", "add": "Add", "upload": "Upload", "download": "Download",
+    "export": "Export", "import": "Import", "close": "Close", "retry": "Retry"
+  },
+  "auth": {
+    "login": "Log in", "register": "Create account", "logout": "Log out",
+    "email": "Email", "password": "Password", "name": "Name",
+    "forgotPassword": "Forgot password", "resetPassword": "Reset password",
+    "noAccount": "No account?", "hasAccount": "Already have an account?",
+    "loginSuccess": "Logged in", "registerSuccess": "Account created",
+    "invalidCredentials": "Invalid credentials", "passwordMin": "Password must be at least 8 characters"
+  },
+  "landing": {
+    "heroTitle": "Organize your vehicles, maintenance, expenses and reminders in one place",
+    "heroSubtitle": "GarajeAR helps you keep real control of your car, motorcycle or truck without hassle.",
+    "ctaStart": "Get started free", "ctaLogin": "Log in",
+    "featuresTitle": "Everything you need", "howTitle": "How it works",
+    "privacyTitle": "Your privacy first", "faqTitle": "Frequently asked questions"
+  },
+  "dashboard": {
+    "title": "Dashboard", "welcome": "Welcome", "activeVehicles": "Active vehicles",
+    "upcomingReminders": "Upcoming reminders", "overdueReminders": "Overdue",
+    "monthExpenses": "This month expenses", "recentActivity": "Recent activity",
+    "quickActions": "Quick actions", "addVehicle": "Add vehicle",
+    "addMaintenance": "Log maintenance", "addFuel": "Log fuel/charge",
+    "addExpense": "Log expense", "addReminder": "Create reminder", "uploadDoc": "Upload document",
+    "expiringDocs": "Expiring documents", "noVehicles": "You have no vehicles yet"
+  },
+  "vehicles": {
+    "title": "My Garage", "new": "New vehicle", "edit": "Edit vehicle",
+    "name": "Name", "type": "Type", "make": "Make", "model": "Model", "year": "Year",
+    "odometer": "Odometer", "powertrain": "Powertrain", "transmission": "Transmission",
+    "color": "Color", "vin": "VIN", "plate": "Plate/Registration",
+    "purchaseDate": "Purchase date", "purchasePrice": "Purchase price",
+    "notes": "Notes", "archive": "Archive", "restore": "Restore",
+    "deleteConfirm": "Delete this vehicle and all its records?", "empty": "No vehicles yet"
+  },
+  "maintenance": {
+    "title": "Maintenance", "new": "New maintenance", "category": "Category",
+    "serviceDate": "Service date", "odometer": "Odometer", "workshop": "Workshop",
+    "partsCost": "Parts cost", "laborCost": "Labor", "totalCost": "Total cost",
+    "currency": "Currency", "notes": "Notes", "nextDueDate": "Next due date",
+    "nextDueOdometer": "Next due odometer", "empty": "No maintenance records"
+  },
+  "energy": {
+    "title": "Fuel & Charging", "fuelFillup": "Fuel fill-up", "charging": "Charging session",
+    "quantity": "Quantity", "unit": "Unit", "totalCost": "Total cost", "station": "Station/Location",
+    "fullTank": "Full tank", "chargingType": "Charging type", "date": "Date", "empty": "No records"
+  },
+  "expenses": {
+    "title": "Expenses", "new": "New expense", "category": "Category", "amount": "Amount",
+    "currency": "Currency", "date": "Date", "vehicle": "Vehicle", "paymentMethod": "Payment method",
+    "notes": "Notes", "empty": "No expenses", "byCategory": "By category", "byVehicle": "By vehicle",
+    "monthly": "Monthly", "exportCsv": "Export CSV"
+  },
+  "reminders": {
+    "title": "Reminders", "new": "New reminder", "dueDate": "Due date",
+    "dueOdometer": "Due odometer", "daysBefore": "Days before",
+    "status": "Status", "upcoming": "Upcoming", "dueSoon": "Due soon",
+    "overdue": "Overdue", "completed": "Completed", "snoozed": "Snoozed",
+    "complete": "Mark complete", "snooze": "Snooze", "empty": "No reminders"
+  },
+  "documents": {
+    "title": "Documents", "upload": "Upload document", "category": "Category",
+    "name": "Name", "expiration": "Expiration", "issueDate": "Issue date",
+    "empty": "No documents", "download": "Download"
+  },
+  "reports": {
+    "title": "Reports", "spendingOverTime": "Spending over time",
+    "byCategory": "By category", "byVehicle": "By vehicle",
+    "maintenanceCosts": "Maintenance costs", "energyTrends": "Energy trends",
+    "consumption": "Consumption", "costPerDistance": "Cost per distance",
+    "insufficientData": "Insufficient data"
+  },
+  "settings": {
+    "title": "Settings", "profile": "Profile", "preferences": "Preferences",
+    "language": "Language", "currency": "Preferred currency", "distanceUnit": "Distance unit",
+    "volumeUnit": "Volume unit", "timeZone": "Time zone", "theme": "Theme",
+    "changePassword": "Change password", "exportData": "Export data",
+    "deleteAccount": "Delete account", "deleteConfirm": "Type DELETE to confirm"
+  },
+  "onboarding": {
+    "welcome": "Welcome to GarajeAR", "step1": "Manage your vehicles",
+    "step2": "Create your first vehicle", "skip": "Skip for now",
+    "finish": "Go to dashboard"
+  },
+  "errors": {
+    "generic": "Something went wrong", "notFound": "Not found", "unauthorized": "Unauthorized",
+    "network": "Network error", "validation": "Invalid data"
+  },
+  "empty": {
+    "noVehicles": "No vehicles yet. Add your first one to get started.",
+    "noMaintenance": "No maintenance records.",
+    "noExpenses": "No expenses recorded.",
+    "noReminders": "No reminders.",
+    "noDocuments": "No documents."
+  }
+}
