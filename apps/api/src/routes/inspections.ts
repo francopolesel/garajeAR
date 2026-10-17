@@ -43,7 +43,7 @@ router.post("/vehicles/:vehicleId/inspections", async (req: AuthedRequest, res, 
     const v = await prisma.vehicle.findFirst({ where: { id: req.params.vehicleId, userId: user.id } });
     if (!v) throw notFound();
     const data = inspectionSchema.omit({ vehicleId: true }).parse(req.body);
-    const insp = await prisma.$transaction(async (tx) => {
+    const insp = await prisma.$transaction(async (tx: any) => {
       const r = await tx.inspection.create({
         data: {
           userId: user.id, vehicleId: req.params.vehicleId, inspectionType: data.inspectionType,

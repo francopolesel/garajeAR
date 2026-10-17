@@ -32,7 +32,7 @@ router.get("/", async (req: AuthedRequest, res, next) => {
     const now = new Date();
     let filtered = reminders;
     if (status) {
-      filtered = reminders.filter((r) => {
+      filtered = reminders.filter((r: any) => {
         if (status === "completed") return !!r.completedAt;
         if (status === "snoozed") return !!r.snoozedUntil && r.snoozedUntil > now;
         const overdue = isOverdue(r, now);

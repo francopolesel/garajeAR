@@ -138,7 +138,7 @@ router.get("/summary/by-category", async (req: AuthedRequest, res, next) => {
       _sum: { amount: true },
       _count: true,
     });
-    res.json({ data: groups.map((g) => ({ category: g.category, currency: g.currency, total: g._sum.amount, count: g._count })) });
+    res.json({ data: groups.map((g: any) => ({ category: g.category, currency: g.currency, total: g._sum.amount, count: g._count })) });
   } catch (e) { next(e); }
 });
 
@@ -160,8 +160,8 @@ router.get("/summary/by-vehicle", async (req: AuthedRequest, res, next) => {
       _count: true,
     });
     const vehicles = await prisma.vehicle.findMany({ where: { userId: user.id }, select: { id: true, name: true } });
-    const vmap = new Map(vehicles.map((v) => [v.id, v.name]));
-    res.json({ data: groups.map((g) => ({ vehicleId: g.vehicleId, vehicleName: vmap.get(g.vehicleId!) || "Unknown", currency: g.currency, total: g._sum.amount, count: g._count })) });
+    const vmap = new Map(vehicles.map((v: any) => [v.id, v.name]));
+    res.json({ data: groups.map((g: any) => ({ vehicleId: g.vehicleId, vehicleName: vmap.get(g.vehicleId!) || "Unknown", currency: g.currency, total: g._sum.amount, count: g._count })) });
   } catch (e) { next(e); }
 });
 

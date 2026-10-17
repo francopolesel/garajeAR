@@ -33,7 +33,7 @@ router.get("/dashboard", async (req: AuthedRequest, res, next) => {
         upcomingReminders,
         overdueReminders,
         monthExpensesTotal: monthExpenses._sum.amount,
-        monthExpensesByCurrency: monthByCurrency.map((g) => ({ currency: g.currency, total: g._sum.amount })),
+        monthExpensesByCurrency: monthByCurrency.map((g: any) => ({ currency: g.currency, total: g._sum.amount })),
         recentMaintenance,
         recentEnergy,
         expiringDocuments: expiringDocs,

@@ -47,7 +47,7 @@ router.post("/vehicles/:vehicleId/energy", async (req: AuthedRequest, res, next)
     if (!v) throw notFound();
     const data = energySchema.parse(req.body);
     const currency = data.currency || user.currency;
-    const log = await prisma.$transaction(async (tx) => {
+    const log = await prisma.$transaction(async (tx: any) => {
       const l = await tx.energyLog.create({
         data: {
           userId: user.id,
@@ -107,7 +107,7 @@ router.patch("/energy/:id", async (req: AuthedRequest, res, next) => {
     const existing = await prisma.energyLog.findFirst({ where: { id: req.params.id, userId: user.id } });
     if (!existing) throw notFound();
     const data = energySchema.partial().parse(req.body);
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       await tx.energyLog.update({
         where: { id: req.params.id },
         data: {
@@ -171,7 +171,7 @@ router.delete("/energy/:id", async (req: AuthedRequest, res, next) => {
     const user = requireUser(req);
     const existing = await prisma.energyLog.findFirst({ where: { id: req.params.id, userId: user.id } });
     if (!existing) throw notFound();
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       await tx.expense.deleteMany({ where: { energyLogId: req.params.id } });
       await tx.energyLog.delete({ where: { id: req.params.id } });
     });

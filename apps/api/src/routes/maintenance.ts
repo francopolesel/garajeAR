@@ -51,7 +51,7 @@ router.post("/vehicles/:vehicleId/maintenance", async (req: AuthedRequest, res, 
     const computed = (data.partsCost ?? 0) + (data.laborCost ?? 0);
     const totalCost = data.totalCost ?? (computed > 0 ? computed : null);
     const currency = data.currency || user.currency;
-    const record = await prisma.$transaction(async (tx) => {
+    const record = await prisma.$transaction(async (tx: any) => {
       const r = await tx.maintenanceRecord.create({
         data: {
           userId: user.id,
@@ -129,7 +129,7 @@ router.patch("/maintenance/:id", async (req: AuthedRequest, res, next) => {
     const totalCost = data.totalCost ?? (data.partsCost != null || data.laborCost != null
       ? (data.partsCost ?? Number(existing.partsCost ?? 0)) + (data.laborCost ?? Number(existing.laborCost ?? 0))
       : undefined);
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       await tx.maintenanceRecord.update({
         where: { id: req.params.id },
         data: {
@@ -196,7 +196,7 @@ router.delete("/maintenance/:id", async (req: AuthedRequest, res, next) => {
     const user = requireUser(req);
     const existing = await prisma.maintenanceRecord.findFirst({ where: { id: req.params.id, userId: user.id } });
     if (!existing) throw notFound();
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       await tx.expense.deleteMany({ where: { maintenanceRecordId: req.params.id } });
       await tx.maintenanceRecord.delete({ where: { id: req.params.id } });
     });
