@@ -3,7 +3,7 @@ import { getSessionUser } from "../lib/auth.js";
 import { unauthorized } from "../lib/errors.js";
 
 export interface AuthedRequest extends Request {
-  user?: { id: string; email: string; name: string; locale: string; currency: string; distanceUnit: string; volumeUnit: string; timeZone: string; theme: string };
+  user?: { id: string; email: string; name: string; displayName?: string | null; username?: string | null; locale: string; currency: string; distanceUnit: string; volumeUnit: string; timeZone: string; theme: string };
   sessionToken?: string;
 }
 
@@ -16,6 +16,8 @@ export async function authMiddleware(req: AuthedRequest, _res: Response, next: N
       id: user.id,
       email: user.email,
       name: user.name,
+      displayName: user.displayName,
+      username: user.username,
       locale: user.locale,
       currency: user.currency,
       distanceUnit: user.distanceUnit,

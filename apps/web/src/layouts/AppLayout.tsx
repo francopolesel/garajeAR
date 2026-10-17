@@ -2,7 +2,10 @@ import React from "react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../lib/auth";
 import { useTranslation } from "react-i18next";
-import { LayoutDashboard, Car, Wrench, Fuel, Receipt, Bell, FileText, BarChart3, Settings as SettingsIcon, LogOut, Menu, X } from "lucide-react";
+import i18n from "../i18n";
+import { apiPatch } from "../lib/api";
+import { Moon, Sun, Globe } from "lucide-react";
+import { LayoutDashboard, Car, Wrench, Fuel, Receipt, Bell, FileText, BarChart3, Settings as SettingsIcon, LogOut, Menu, X, Users, MessageCircle } from "lucide-react";
 import { Button } from "../components/ui/Button";
 
 const navItems = [
@@ -13,6 +16,8 @@ const navItems = [
   { to: "/app/expenses", icon: Receipt, key: "expenses" },
   { to: "/app/reminders", icon: Bell, key: "reminders" },
   { to: "/app/documents", icon: FileText, key: "documents" },
+  { to: "/app/friends", icon: Users, key: "friends" },
+  { to: "/app/messages", icon: MessageCircle, key: "messages" },
   { to: "/app/reports", icon: BarChart3, key: "reports" },
   { to: "/app/inspections", icon: Wrench, key: "inspections" },
   { to: "/app/finance", icon: Receipt, key: "finance" },
@@ -52,7 +57,24 @@ export default function AppLayout() {
             </NavLink>
           ))}
         </nav>
-        <div className="absolute bottom-0 left-0 right-0 p-3 border-t border-gray-200 dark:border-gray-800">
+        <div className="absolute bottom-0 left-0 right-0 p-3 border-t border-gray-200 dark:border-gray-800 space-y-2">
+          <div className="flex gap-2 px-3">
+            <button onClick={async () => {
+              const next = document.documentElement.classList.contains("dark") ? "LIGHT" : "DARK";
+              document.documentElement.classList.toggle("dark");
+              await apiPatch("/profile", { theme: next }).catch(() => {});
+            }} className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 text-xs">
+              <Sun className="h-3 w-3" />/<Moon className="h-3 w-3" />
+            </button>
+            <button onClick={async () => {
+              const cur = i18n.language;
+              const next = cur === "es" ? "en" : "es";
+              i18n.changeLanguage(next);
+              await apiPatch("/profile", { locale: next }).catch(() => {});
+            }} className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 text-xs">
+              <Globe className="h-3 w-3" /> {i18n.language.toUpperCase()}
+            </button>
+          </div>
           <div className="px-3 py-2 text-sm text-gray-500 truncate">{user?.email}</div>
           <button onClick={handleLogout} className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">
             <LogOut className="h-4 w-4" /> {t("auth.logout")}

@@ -21,6 +21,7 @@ import usersRouter from "./routes/users.js";
 import reportsRouter from "./routes/reports.js";
 import inspectionsRouter from "./routes/inspections.js";
 import financeRouter from "./routes/finance.js";
+import socialRouter from "./routes/social.js";
 
 export function createApp() {
   const app = express();
@@ -59,6 +60,7 @@ export function createApp() {
   app.use("/api/v1/reports", reportsRouter);
   app.use("/api/v1", inspectionsRouter);
   app.use("/api/v1/finance", financeRouter);
+  app.use("/api/v1", socialRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);

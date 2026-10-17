@@ -18,6 +18,15 @@ model User {
   volumeUnit       String   @default("L")
   timeZone         String   @default("America/Argentina/Buenos_Aires")
   theme            String   @default("SYSTEM")
+  username         String?  @unique
+  displayName      String?
+  bio              String?
+  avatarUrl        String?
+  profileVisibility String  @default("PUBLIC")
+  friendRequestPermission String @default("EVERYONE")
+  onlineVisibility String   @default("EVERYONE")
+  lastSeenVisibility String @default("EVERYONE")
+  readReceipts     Boolean  @default(true)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
@@ -28,6 +37,17 @@ model User {
   inspections      Inspection[]
   userIdentities   UserIdentity[]
   exchangeRateSnapshots ExchangeRateSnapshot[]
+  sentRequests     FriendRequest[] @relation("SentRequests")
+  receivedRequests FriendRequest[] @relation("ReceivedRequests")
+  friendshipsA     Friendship[]   @relation("FriendA")
+  friendshipsB     Friendship[]   @relation("FriendB")
+  blockedByMe      UserBlock[]    @relation("Blocker")
+  blockedMe        UserBlock[]    @relation("Blocked")
+  conversationMemberships ConversationMember[]
+  sentMessages     Message[]      @relation("Sender")
+  messageReactions MessageReaction[]
+  socialNotifications SocialNotification[]
+  abuseReports     AbuseReport[]  @relation("Reporter")
   passwordResetTokens PasswordResetToken[]
   sessions         Session[]
   odometerReadings OdometerReading[]
@@ -331,4 +351,170 @@ model CpiIndex {
 
   @@unique([country, series, yearMonth])
   @@index([country, series])
+}
+
+model FriendRequest {
+  id          String   @id @default(uuid())
+  senderId    String
+  recipientId String
+  pairKey     String
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  decidedAt   DateTime?
+
+  sender      User     @relation("SentRequests", fields: [senderId], references: [id], onDelete: Cascade)
+  recipient   User     @relation("ReceivedRequests", fields: [recipientId], references: [id], onDelete: Cascade)
+
+  @@index([senderId])
+  @@index([recipientId])
+  @@index([pairKey])
+  @@index([status])
+}
+
+model Friendship {
+  id        String   @id @default(uuid())
+  userAId   String
+  userBId   String
+  pairKey   String   @unique
+  createdAt DateTime @default(now())
+
+  userA     User     @relation("FriendA", fields: [userAId], references: [id], onDelete: Cascade)
+  userB     User     @relation("FriendB", fields: [userBId], references: [id], onDelete: Cascade)
+
+  @@index([userAId])
+  @@index([userBId])
+}
+
+model UserBlock {
+  id        String   @id @default(uuid())
+  blockerId String
+  blockedId String
+  createdAt DateTime @default(now())
+
+  blocker   User     @relation("Blocker", fields: [blockerId], references: [id], onDelete: Cascade)
+  blocked   User     @relation("Blocked", fields: [blockedId], references: [id], onDelete: Cascade)
+
+  @@unique([blockerId, blockedId])
+  @@index([blockerId])
+  @@index([blockedId])
+}
+
+model Conversation {
+  id        String   @id @default(uuid())
+  type      String   @default("DIRECT")
+  name      String?
+  avatarUrl String?
+  creatorId String?
+  pairKey   String?  @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  members   ConversationMember[]
+  messages  Message[]
+
+  @@index([updatedAt])
+}
+
+model ConversationMember {
+  id             String   @id @default(uuid())
+  conversationId String
+  userId         String
+  role           String   @default("MEMBER")
+  joinedAt       DateTime @default(now())
+  lastReadAt     DateTime?
+  lastReadMessageId String?
+  muted          Boolean  @default(false)
+  archived       Boolean  @default(false)
+  pinned         Boolean  @default(false)
+
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([conversationId, userId])
+  @@index([userId])
+}
+
+model Message {
+  id             String   @id @default(uuid())
+  conversationId String
+  senderId       String
+  type           String   @default("TEXT")
+  text           String?
+  replyToId      String?
+  clientId       String?
+  editedAt       DateTime?
+  deletedAt      DateTime?
+  createdAt      DateTime @default(now())
+
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender         User         @relation("Sender", fields: [senderId], references: [id], onDelete: Cascade)
+  replyTo        Message?     @relation("Replies", fields: [replyToId], references: [id], onDelete: SetNull)
+  replies        Message[]    @relation("Replies")
+  attachments    MessageAttachment[]
+  reactions      MessageReaction[]
+
+  @@index([conversationId, createdAt])
+  @@unique([conversationId, clientId])
+}
+
+model MessageAttachment {
+  id          String   @id @default(uuid())
+  messageId   String
+  storageKey  String
+  originalName String
+  mimeType    String
+  size        Int
+  width       Int?
+  height      Int?
+  createdAt   DateTime @default(now())
+
+  message     Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@index([messageId])
+}
+
+model MessageReaction {
+  id        String   @id @default(uuid())
+  messageId String
+  userId    String
+  emoji     String
+  createdAt DateTime @default(now())
+
+  message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([messageId, userId, emoji])
+  @@index([messageId])
+}
+
+model SocialNotification {
+  id        String   @id @default(uuid())
+  userId    String
+  type      String
+  title     String
+  body      String
+  data      String?
+  readAt    DateTime?
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, readAt])
+}
+
+model AbuseReport {
+  id          String   @id @default(uuid())
+  reporterId  String
+  reportedId  String?
+  messageId   String?
+  reason      String
+  details     String?
+  status      String   @default("OPEN")
+  createdAt   DateTime @default(now())
+
+  reporter    User     @relation("Reporter", fields: [reporterId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+  @@index([reporterId])
 }

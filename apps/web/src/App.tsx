@@ -24,6 +24,8 @@ import Reports from "./pages/Reports";
 import Inspections from "./pages/Inspections";
 import Finance from "./pages/Finance";
 import Settings from "./pages/Settings";
+import Friends from "./pages/Friends";
+import Messages from "./pages/Messages";
 import NotFound from "./pages/NotFound";
 
 function Guard({ children }: { children: React.ReactNode }) {
@@ -64,6 +66,11 @@ export default function App() {
               <Route path="inspections" element={<Inspections />} />
               <Route path="finance" element={<Finance />} />
               <Route path="settings" element={<Settings />} />
+              <Route path="friends" element={<Friends />} />
+              <Route path="friends/discover" element={<Friends />} />
+              <Route path="friends/requests" element={<Friends />} />
+              <Route path="messages" element={<Messages />} />
+              <Route path="messages/:conversationId" element={<Messages />} />
               <Route index element={<Navigate to="dashboard" replace />} />
             </Route>
             <Route path="*" element={<NotFound />} />
