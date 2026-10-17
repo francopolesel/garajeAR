@@ -39,7 +39,7 @@ export default function Documents() {
     if (form.expirationDate) fd.append("expirationDate", form.expirationDate);
     if (form.notes) fd.append("notes", form.notes);
     const csrf = document.cookie.match(/(?:^|; )csrf=([^;]+)/)?.[1];
-    const res = await fetch("/api/v1/documents/upload", { method: "POST", body: fd, credentials: "include", headers: csrf ? { "X-CSRF-Token": decodeURIComponent(csrf) } : {} });
+    const res = await fetch((import.meta as { env?: { VITE_API_URL?: string } }).env?.VITE_API_URL ? (import.meta as { env?: { VITE_API_URL?: string } }).env!.VITE_API_URL!.replace(/\/$/, "") + "/api/v1/documents/upload" : "/api/v1/documents/upload", { method: "POST", body: fd, credentials: "include", headers: csrf ? { "X-CSRF-Token": decodeURIComponent(csrf) } : {} });
     if (!res.ok) throw new Error("Upload failed");
     qc.invalidateQueries({ queryKey: qk });
     setOpen(false);
@@ -71,7 +71,7 @@ export default function Documents() {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <a href={`/api/v1/documents/${d.id}/download`} target="_blank" rel="noreferrer">
+                  <a href={`${(import.meta as { env?: { VITE_API_URL?: string } }).env?.VITE_API_URL ? (import.meta as { env?: { VITE_API_URL?: string } }).env!.VITE_API_URL!.replace(/\/$/, "") : ""}/api/v1/documents/${d.id}/download`} target="_blank" rel="noreferrer">
                     <Button size="sm" variant="outline"><Download className="h-3 w-3" /></Button>
                   </a>
                   <Button size="sm" variant="ghost" onClick={() => remove(d.id)} className="text-red-600"><Trash2 className="h-4 w-4" /></Button>

@@ -1,4 +1,5 @@
-const BASE = "/api/v1";
+const API_URL = (import.meta as { env?: { VITE_API_URL?: string } }).env?.VITE_API_URL || "";
+const BASE = (API_URL ? API_URL.replace(/\/$/, "") : "") + "/api/v1";
 
 export async function api<T>(path: string, options: RequestInit = {}): Promise<T> {
   const headers: Record<string, string> = { "Content-Type": "application/json", ...(options.headers as Record<string, string>) };

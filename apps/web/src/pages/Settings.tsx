@@ -33,7 +33,8 @@ export default function Settings() {
     setPw({ currentPassword: "", newPassword: "" });
   }
   async function exportData() {
-    window.open("/api/v1/export", "_blank");
+    const apiUrl = (import.meta as { env?: { VITE_API_URL?: string } }).env?.VITE_API_URL || "";
+    window.open((apiUrl ? apiUrl.replace(/\/$/, "") : "") + "/api/v1/export", "_blank");
   }
   async function deleteAccount() {
     if (confirmDelete !== "DELETE") return alert("Escribí DELETE");

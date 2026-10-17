@@ -22,7 +22,8 @@ export default function Messages() {
   const convs = convsData?.data || [];
 
   useEffect(() => {
-    const socket = io("/", { withCredentials: true });
+    const apiUrl = (import.meta as { env?: { VITE_API_URL?: string } }).env?.VITE_API_URL || "/";
+    const socket = io(apiUrl, { withCredentials: true });
     socketRef.current = socket;
     socket.on("message:new", (msg: any) => {
       setMessages((prev) => (prev.some((m) => m.id === msg.id) ? prev : [...prev, msg]));

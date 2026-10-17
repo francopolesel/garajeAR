@@ -33,7 +33,8 @@ export default function VehicleDetail() {
           const fd = new FormData();
           fd.append("photo", file);
           const csrf = document.cookie.match(/(?:^|; )csrf=([^;]+)/)?.[1];
-          await fetch(`/api/v1/vehicles/${vehicleId}/photo`, { method: "POST", body: fd, credentials: "include", headers: csrf ? { "X-CSRF-Token": decodeURIComponent(csrf) } : {} });
+          const apiUrl = (import.meta as { env?: { VITE_API_URL?: string } }).env?.VITE_API_URL || "";
+          await fetch((apiUrl ? apiUrl.replace(/\/$/, "") : "") + `/api/v1/vehicles/${vehicleId}/photo`, { method: "POST", body: fd, credentials: "include", headers: csrf ? { "X-CSRF-Token": decodeURIComponent(csrf) } : {} });
           window.location.reload();
         }}>{t("commonExtra.uploadPhoto")}</Button>
       </div>
