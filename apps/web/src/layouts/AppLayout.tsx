@@ -14,6 +14,8 @@ const navItems = [
   { to: "/app/reminders", icon: Bell, key: "reminders" },
   { to: "/app/documents", icon: FileText, key: "documents" },
   { to: "/app/reports", icon: BarChart3, key: "reports" },
+  { to: "/app/inspections", icon: Wrench, key: "inspections" },
+  { to: "/app/finance", icon: Receipt, key: "finance" },
   { to: "/app/settings", icon: SettingsIcon, key: "settings" },
 ];
 

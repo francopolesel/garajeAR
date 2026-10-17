@@ -25,6 +25,9 @@ model User {
   expenses         Expense[]
   reminders        Reminder[]
   documents        Document[]
+  inspections      Inspection[]
+  userIdentities   UserIdentity[]
+  exchangeRateSnapshots ExchangeRateSnapshot[]
   passwordResetTokens PasswordResetToken[]
   sessions         Session[]
   odometerReadings OdometerReading[]
@@ -91,6 +94,7 @@ model Vehicle {
   expenses           Expense[]
   reminders          Reminder[]
   documents          Document[]
+  inspections        Inspection[]
 
   @@index([userId])
   @@index([userId, archived])
@@ -250,4 +254,81 @@ model Document {
   @@index([userId])
   @@index([vehicleId])
   @@index([expirationDate])
+}
+
+model Inspection {
+  id               String   @id @default(uuid())
+  userId           String
+  vehicleId        String
+  inspectionType   String
+  country          String?
+  jurisdiction     String?
+  inspectionDate   DateTime
+  expirationDate   DateTime?
+  result           String
+  certificateNumber String?
+  center           String?
+  odometer         Float?
+  odometerUnit     String?
+  cost             Decimal? @db.Decimal(14, 2)
+  currency         String?
+  reinspectionDeadline DateTime?
+  defects          String?
+  notes            String?
+  documentId       String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vehicle          Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([vehicleId])
+  @@index([expirationDate])
+}
+
+model UserIdentity {
+  id           String   @id @default(uuid())
+  userId       String
+  provider     String
+  providerSub  String
+  email        String?
+  createdAt    DateTime @default(now())
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerSub])
+  @@index([userId])
+}
+
+model ExchangeRateSnapshot {
+  id            String   @id @default(uuid())
+  userId        String?
+  fromCurrency  String
+  toCurrency    String
+  rate          Decimal  @db.Decimal(18, 8)
+  rateType      String
+  provider      String
+  quoteDate     DateTime
+  retrievedAt   DateTime @default(now())
+  manualOverride Boolean @default(false)
+  transactionDate DateTime?
+  createdAt     DateTime @default(now())
+
+  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([fromCurrency, toCurrency, quoteDate])
+}
+
+model CpiIndex {
+  id        String   @id @default(uuid())
+  country   String
+  series    String
+  yearMonth String
+  indexValue Decimal @db.Decimal(18, 6)
+  source    String
+  createdAt DateTime @default(now())
+
+  @@unique([country, series, yearMonth])
+  @@index([country, series])
 }

@@ -1,11 +1,30 @@
 import { Router } from "express";
 import { z } from "zod";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+import crypto from "crypto";
 import { prisma } from "../lib/prisma.js";
-import { badRequest, notFound, forbidden } from "../lib/errors.js";
+import { badRequest, notFound } from "../lib/errors.js";
 import { authMiddleware, AuthedRequest, requireUser } from "../middleware/auth.js";
+import { env, maxUploadSize } from "../lib/env.js";
 
 const router = Router();
 router.use(authMiddleware);
+
+const uploadDir = env.UPLOAD_DIR;
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+const storage = multer.diskStorage({
+  destination: (_req, _file, cb) => cb(null, uploadDir),
+  filename: (_req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase();
+    cb(null, "veh_" + crypto.randomBytes(16).toString("hex") + ext);
+  },
+});
+const upload = multer({ storage, limits: { fileSize: maxUploadSize }, fileFilter: (_req, file, cb) => {
+  const allowed = ["image/jpeg", "image/png", "image/webp"];
+  if (allowed.includes(file.mimetype)) cb(null, true); else cb(new Error("Unsupported file type"));
+} });
 
 const vehicleSchema = z.object({
   type: z.string(),
@@ -41,7 +60,7 @@ router.get("/", async (req: AuthedRequest, res, next) => {
     const { search, type, archived, sort } = req.query as Record<string, string>;
     const where: Record<string, unknown> = { userId: user.id };
     if (archived === "true") where.archived = true;
-    else if (archived === "false" || archived === undefined) where.archived = false;
+    else where.archived = false;
     if (type) where.type = type;
     if (search) {
       where.OR = [
@@ -51,10 +70,7 @@ router.get("/", async (req: AuthedRequest, res, next) => {
         { registrationNumber: { contains: search, mode: "insensitive" } },
       ];
     }
-    const vehicles = await prisma.vehicle.findMany({
-      where,
-      orderBy: sort === "name" ? { name: "asc" } : { updatedAt: "desc" },
-    });
+    const vehicles = await prisma.vehicle.findMany({ where, orderBy: sort === "name" ? { name: "asc" } : { updatedAt: "desc" } });
     res.json({ data: vehicles });
   } catch (e) { next(e); }
 });
@@ -65,34 +81,17 @@ router.post("/", async (req: AuthedRequest, res, next) => {
     const data = vehicleSchema.parse(req.body);
     const vehicle = await prisma.vehicle.create({
       data: {
-        userId: user.id,
-        type: data.type,
-        name: data.name,
-        make: data.make,
-        model: data.model,
-        modelYear: data.modelYear,
-        trim: data.trim ?? null,
-        vin: data.vin ?? null,
-        registrationNumber: data.registrationNumber ?? null,
-        engine: data.engine ?? null,
-        displacement: data.displacement ?? null,
-        transmission: data.transmission ?? null,
-        powertrain: data.powertrain ?? null,
-        bodyStyle: data.bodyStyle ?? null,
-        color: data.color ?? null,
-        purchaseDate: data.purchaseDate ? new Date(data.purchaseDate) : null,
-        purchasePrice: data.purchasePrice ?? null,
-        purchaseCurrency: data.purchaseCurrency ?? null,
-        currentOdometer: data.currentOdometer,
-        odometerUnit: data.odometerUnit,
-        photoUrl: data.photoUrl ?? null,
-        notes: data.notes ?? null,
+        userId: user.id, type: data.type, name: data.name, make: data.make, model: data.model, modelYear: data.modelYear,
+        trim: data.trim ?? null, vin: data.vin ?? null, registrationNumber: data.registrationNumber ?? null,
+        engine: data.engine ?? null, displacement: data.displacement ?? null, transmission: data.transmission ?? null,
+        powertrain: data.powertrain ?? null, bodyStyle: data.bodyStyle ?? null, color: data.color ?? null,
+        purchaseDate: data.purchaseDate ? new Date(data.purchaseDate) : null, purchasePrice: data.purchasePrice ?? null,
+        purchaseCurrency: data.purchaseCurrency ?? null, currentOdometer: data.currentOdometer, odometerUnit: data.odometerUnit,
+        photoUrl: data.photoUrl ?? null, notes: data.notes ?? null,
       },
     });
     if (data.currentOdometer > 0) {
-      await prisma.odometerReading.create({
-        data: { userId: user.id, vehicleId: vehicle.id, value: data.currentOdometer, unit: data.odometerUnit, observedAt: new Date(), source: "initial" },
-      });
+      await prisma.odometerReading.create({ data: { userId: user.id, vehicleId: vehicle.id, value: data.currentOdometer, unit: data.odometerUnit, observedAt: new Date(), source: "initial" } });
     }
     res.status(201).json({ data: vehicle });
   } catch (e) { next(e); }
@@ -170,6 +169,25 @@ router.post("/:id/restore", async (req: AuthedRequest, res, next) => {
     if (!existing) throw notFound();
     const v = await prisma.vehicle.update({ where: { id: req.params.id }, data: { archived: false } });
     res.json({ data: v });
+  } catch (e) { next(e); }
+});
+
+// Profile photo upload
+router.post("/:id/photo", upload.single("photo"), async (req: AuthedRequest, res, next) => {
+  try {
+    const user = requireUser(req);
+    const existing = await ownedVehicle(user.id, req.params.id);
+    if (!existing) throw notFound();
+    const file = req.file;
+    if (!file) throw badRequest("No file uploaded");
+    // remove old photo file if present
+    if (existing.photoUrl) {
+      const oldPath = path.join(uploadDir, path.basename(existing.photoUrl));
+      if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+    }
+    const photoUrl = `/uploads/${file.filename}`;
+    const updated = await prisma.vehicle.update({ where: { id: req.params.id }, data: { photoUrl } });
+    res.json({ data: updated });
   } catch (e) { next(e); }
 });
 

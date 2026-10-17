@@ -19,6 +19,24 @@ export default function VehicleDetail() {
         <h1 className="text-2xl font-bold">{v.name}</h1>
         <Link to={`/app/vehicles/${vehicleId}/edit`}><Button variant="outline">{t("common.edit")}</Button></Link>
       </div>
+      {v.photoUrl && (
+        <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800">
+          <img src={v.photoUrl} alt={v.name} className="w-full max-h-80 object-cover" />
+        </div>
+      )}
+      <div className="flex items-center gap-2">
+        <input type="file" accept="image/*" id="photoInput" className="text-sm" />
+        <Button size="sm" onClick={async () => {
+          const input = document.getElementById("photoInput") as HTMLInputElement;
+          const file = input.files?.[0];
+          if (!file) return;
+          const fd = new FormData();
+          fd.append("photo", file);
+          const csrf = document.cookie.match(/(?:^|; )csrf=([^;]+)/)?.[1];
+          await fetch(`/api/v1/vehicles/${vehicleId}/photo`, { method: "POST", body: fd, credentials: "include", headers: csrf ? { "X-CSRF-Token": decodeURIComponent(csrf) } : {} });
+          window.location.reload();
+        }}>Subir foto</Button>
+      </div>
       <Card>
         <CardContent className="p-6 grid md:grid-cols-2 gap-4">
           <div><p className="text-sm text-gray-500">{t("vehicles.make")}</p><p className="font-medium">{v.make} {v.model}</p></div>

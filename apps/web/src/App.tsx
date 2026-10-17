@@ -21,6 +21,8 @@ import Expenses from "./pages/Expenses";
 import Reminders from "./pages/Reminders";
 import Documents from "./pages/Documents";
 import Reports from "./pages/Reports";
+import Inspections from "./pages/Inspections";
+import Finance from "./pages/Finance";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
@@ -59,6 +61,8 @@ export default function App() {
               <Route path="reminders" element={<Reminders />} />
               <Route path="documents" element={<Documents />} />
               <Route path="reports" element={<Reports />} />
+              <Route path="inspections" element={<Inspections />} />
+              <Route path="finance" element={<Finance />} />
               <Route path="settings" element={<Settings />} />
               <Route index element={<Navigate to="dashboard" replace />} />
             </Route>

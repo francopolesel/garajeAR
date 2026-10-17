@@ -36,6 +36,9 @@ export default function Login() {
             <Input label={t("auth.password")} type="password" {...register("password")} error={errors.password?.message as string} />
             <Button type="submit" className="w-full" loading={isSubmitting}>{t("auth.login")}</Button>
           </form>
+          <div className="mt-4">
+            <a href="/api/v1/auth/google"><Button variant="outline" className="w-full">Continuar con Google</Button></a>
+          </div>
           <div className="mt-4 text-sm text-center space-y-2">
             <Link to="/forgot-password" className="text-brand-600 hover:underline">{t("auth.forgotPassword")}</Link>
             <div>{t("auth.noAccount")} <Link to="/register" className="text-brand-600 hover:underline">{t("auth.register")}</Link></div>
