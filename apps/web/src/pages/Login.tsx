@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -15,6 +15,12 @@ export default function Login() {
   const { t } = useTranslation();
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const [googleEnabled, setGoogleEnabled] = useState(false);
+  const errorParam = params.get("error");
+  useEffect(() => {
+    fetch("/api/v1/auth/google/enabled").then((r) => r.json()).then((j) => setGoogleEnabled(!!j?.data?.enabled)).catch(() => setGoogleEnabled(false));
+  }, []);
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(schema) });
 
   async function onSubmit(data: { email: string; password: string }) {
@@ -36,9 +42,12 @@ export default function Login() {
             <Input label={t("auth.password")} type="password" {...register("password")} error={errors.password?.message as string} />
             <Button type="submit" className="w-full" loading={isSubmitting}>{t("auth.login")}</Button>
           </form>
-          <div className="mt-4">
-            <a href="/api/v1/auth/google"><Button variant="outline" className="w-full">Continuar con Google</Button></a>
-          </div>
+          {errorParam && <p className="mt-3 text-sm text-red-600">Error de Google: {errorParam}</p>}
+          {googleEnabled && (
+            <div className="mt-4">
+              <a href="/api/v1/auth/google"><Button variant="outline" className="w-full">Continuar con Google</Button></a>
+            </div>
+          )}
           <div className="mt-4 text-sm text-center space-y-2">
             <Link to="/forgot-password" className="text-brand-600 hover:underline">{t("auth.forgotPassword")}</Link>
             <div>{t("auth.noAccount")} <Link to="/register" className="text-brand-600 hover:underline">{t("auth.register")}</Link></div>

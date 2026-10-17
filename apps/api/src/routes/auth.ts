@@ -164,16 +164,21 @@ router.post("/reset-password", async (req, res, next) => {
 });
 
 // Google Sign-In
+router.get("/google/enabled", (_req, res) => {
+  const enabled = !!(env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET && env.GOOGLE_CALLBACK_URL);
+  res.json({ data: { enabled } });
+});
+
 router.get("/google", async (_req, res, next) => {
   try {
     if (!env.GOOGLE_CLIENT_ID || !env.GOOGLE_CLIENT_SECRET || !env.GOOGLE_CALLBACK_URL) {
-      return res.status(501).json({ error: { code: "NOT_CONFIGURED", message: "Google auth not configured" } });
+      return res.redirect(`${env.WEB_ORIGIN}/login?error=google_not_configured`);
     }
     const client = new OAuth2Client(env.GOOGLE_CLIENT_ID, env.GOOGLE_CLIENT_SECRET, env.GOOGLE_CALLBACK_URL);
     const state = generateToken(16);
     const nonce = generateToken(16);
-    res.cookie("g_state", state, { httpOnly: true, secure: isProd, sameSite: "lax", maxAge: 10 * 60 * 1000 });
-    res.cookie("g_nonce", nonce, { httpOnly: true, secure: isProd, sameSite: "lax", maxAge: 10 * 60 * 1000 });
+    res.cookie("g_state", state, { httpOnly: true, secure: isProd, sameSite: "lax", maxAge: 10 * 60 * 1000, path: "/" });
+    res.cookie("g_nonce", nonce, { httpOnly: true, secure: isProd, sameSite: "lax", maxAge: 10 * 60 * 1000, path: "/" });
     const url = client.generateAuthUrl({ access_type: "offline", scope: ["openid", "email", "profile"], state, nonce, prompt: "select_account" });
     res.redirect(url);
   } catch (e) { next(e); }
@@ -182,12 +187,15 @@ router.get("/google", async (_req, res, next) => {
 router.get("/google/callback", async (req, res, next) => {
   try {
     if (!env.GOOGLE_CLIENT_ID || !env.GOOGLE_CLIENT_SECRET || !env.GOOGLE_CALLBACK_URL) {
-      return res.status(501).json({ error: { code: "NOT_CONFIGURED", message: "Google auth not configured" } });
+      return res.redirect(`${env.WEB_ORIGIN}/login?error=google_not_configured`);
     }
-    const { code, state } = req.query as Record<string, string>;
+    const { code, state, error } = req.query as Record<string, string>;
+    if (error) {
+      return res.redirect(`${env.WEB_ORIGIN}/login?error=${encodeURIComponent(error)}`);
+    }
     const storedState = req.cookies?.g_state;
-    if (!state || !storedState || state !== storedState) {
-      throw badRequest("Invalid state");
+    if (!code || !state || !storedState || state !== storedState) {
+      return res.redirect(`${env.WEB_ORIGIN}/login?error=invalid_state`);
     }
     const client = new OAuth2Client(env.GOOGLE_CLIENT_ID, env.GOOGLE_CLIENT_SECRET, env.GOOGLE_CALLBACK_URL);
     const { tokens } = await client.getToken(code);
@@ -227,7 +235,10 @@ router.get("/google/callback", async (req, res, next) => {
     res.clearCookie("g_state", { path: "/" });
     res.clearCookie("g_nonce", { path: "/" });
     res.redirect(`${env.WEB_ORIGIN}/app/dashboard`);
-  } catch (e) { next(e); }
+  } catch (e) {
+    console.error("Google callback error:", e);
+    res.redirect(`${env.WEB_ORIGIN}/login?error=google_failed`);
+  }
 });
 
 export default router;
