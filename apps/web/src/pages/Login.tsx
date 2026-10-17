@@ -9,6 +9,8 @@ import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { Card, CardContent } from "../components/ui/Card";
 import { Logo } from "../components/brand/Logo";
+import i18n from "../i18n";
+import { Moon, Sun, Globe } from "lucide-react";
 
 const schema = z.object({ email: z.string().email(), password: z.string().min(1) });
 
@@ -34,7 +36,23 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4 relative">
+      <div className="absolute top-4 right-4 flex gap-2">
+        <button onClick={() => {
+          const next = document.documentElement.classList.contains("dark") ? "LIGHT" : "DARK";
+          document.documentElement.classList.toggle("dark");
+          localStorage.setItem("theme", next);
+        }} className="p-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+          {document.documentElement.classList.contains("dark") ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+        </button>
+        <button onClick={() => {
+          const next = i18n.language === "es" ? "en" : "es";
+          i18n.changeLanguage(next);
+          localStorage.setItem("locale", next);
+        }} className="p-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs font-medium">
+          {i18n.language.toUpperCase()}
+        </button>
+      </div>
       <Card className="w-full max-w-md">
         <CardContent className="p-8">
           <div className="mb-6 flex justify-center"><Logo variant="full" className="h-10" /></div>
