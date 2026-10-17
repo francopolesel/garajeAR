@@ -35,7 +35,7 @@ export default function VehicleDetail() {
           const csrf = document.cookie.match(/(?:^|; )csrf=([^;]+)/)?.[1];
           await fetch(`/api/v1/vehicles/${vehicleId}/photo`, { method: "POST", body: fd, credentials: "include", headers: csrf ? { "X-CSRF-Token": decodeURIComponent(csrf) } : {} });
           window.location.reload();
-        }}>Subir foto</Button>
+        }}>{t("commonExtra.uploadPhoto")}</Button>
       </div>
       <Card>
         <CardContent className="p-6 grid md:grid-cols-2 gap-4">

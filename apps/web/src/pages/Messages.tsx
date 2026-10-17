@@ -63,8 +63,8 @@ export default function Messages() {
     <div className="grid md:grid-cols-3 gap-4 h-[70vh]">
       <Card className="md:col-span-1 overflow-auto">
         <CardContent className="p-3 space-y-2">
-          <h2 className="font-semibold flex items-center gap-2"><MessageCircle className="h-4 w-4" /> Conversaciones</h2>
-          {convs.length === 0 && <EmptyState title="Sin conversaciones" />}
+          <h2 className="font-semibold flex items-center gap-2"><MessageCircle className="h-4 w-4" /> {t("messages.conversations")}</h2>
+          {convs.length === 0 && <EmptyState title={t("messages.noConversations")} />}
           {convs.map((c: any) => (
             <button key={c.id} onClick={() => setActiveConv(c.id)} className={`w-full text-left p-2 rounded-lg ${activeConv === c.id ? "bg-brand-50 dark:bg-brand-900/30" : "hover:bg-gray-100 dark:hover:bg-gray-800"}`}>
               <p className="font-medium text-sm">{c.name || "Chat"}</p>
@@ -79,11 +79,11 @@ export default function Messages() {
       </Card>
       <Card className="md:col-span-2 flex flex-col">
         <CardContent className="p-3 flex-1 overflow-auto space-y-2">
-          {!activeConv ? <EmptyState title="Seleccioná una conversación" /> : messages.map((m: any) => (
+          {!activeConv ? <EmptyState title={t("messages.selectConversation")} /> : messages.map((m: any) => (
             <div key={m.id} className={`flex ${m.senderId === (window as any).__uid ? "justify-end" : "justify-start"}`}>
               <div className={`max-w-[70%] px-3 py-2 rounded-xl text-sm ${m.senderId === (window as any).__uid ? "bg-brand-600 text-white" : "bg-gray-100 dark:bg-gray-800"}`}>
-                {m.deletedAt ? <em>mensaje eliminado</em> : m.text}
-                {m.editedAt && <span className="text-xs opacity-70 ml-1">(editado)</span>}
+                {m.deletedAt ? <em>{t("messages.deleted")}</em> : m.text}
+                {m.editedAt && <span className="text-xs opacity-70 ml-1">({t("messages.edited")})</span>}
               </div>
             </div>
           ))}
@@ -91,7 +91,7 @@ export default function Messages() {
         </CardContent>
         {activeConv && (
           <div className="p-3 border-t border-gray-100 dark:border-gray-800 flex gap-2">
-            <Input value={text} onChange={(e) => { setText(e.target.value); socketRef.current?.emit("typing:start", activeConv); }} placeholder="Escribí un mensaje..." />
+            <Input value={text} onChange={(e) => { setText(e.target.value); socketRef.current?.emit("typing:start", activeConv); }} placeholder={t("messages.typeMessage")} />
             <Button onClick={send}><Send className="h-4 w-4" /></Button>
           </div>
         )}

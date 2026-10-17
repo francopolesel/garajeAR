@@ -40,7 +40,7 @@ export default function Inspections() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Inspecciones técnicas</h1>
+        <h1 className="text-2xl font-bold">{t("inspections.title")}</h1>
         <Button onClick={() => setOpen(true)}><Plus className="h-4 w-4" />Nueva</Button>
       </div>
       {items.length === 0 ? <EmptyState title="Sin inspecciones" /> : (

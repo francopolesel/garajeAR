@@ -106,5 +106,59 @@
     "noExpenses": "No hay gastos registrados.",
     "noReminders": "No hay recordatorios.",
     "noDocuments": "No hay documentos."
+  },
+  "friends": {
+    "title": "Amigos",
+    "search": "Buscar usuarios",
+    "add": "Agregar",
+    "remove": "Eliminar",
+    "block": "Bloquear",
+    "unblock": "Desbloquear",
+    "accept": "Aceptar",
+    "reject": "Rechazar",
+    "cancel": "Cancelar",
+    "incoming": "Solicitudes recibidas",
+    "outgoing": "Solicitudes enviadas",
+    "myFriends": "Mis amigos",
+    "noFriends": "Sin amigos todavía",
+    "removeConfirm": "¿Eliminar amigo?",
+    "searchPlaceholder": "Buscar usuarios..."
+  },
+  "messages": {
+    "title": "Mensajes",
+    "conversations": "Conversaciones",
+    "noConversations": "Sin conversaciones",
+    "selectConversation": "Seleccioná una conversación",
+    "typeMessage": "Escribí un mensaje...",
+    "send": "Enviar",
+    "deleted": "mensaje eliminado",
+    "edited": "editado",
+    "startChat": "Iniciar chat",
+    "userId": "ID de usuario"
+  },
+  "inspections": {
+    "title": "Inspecciones técnicas",
+    "new": "Nueva",
+    "noInspections": "Sin inspecciones",
+    "deleteConfirm": "¿Eliminar?"
+  },
+  "finance": {
+    "title": "Finanzas históricas",
+    "saveRate": "Guardar tasa",
+    "calculate": "Calcular",
+    "nominal": "Nominal",
+    "adjusted": "Ajustado",
+    "source": "Fuente",
+    "indicesLoaded": "Índices cargados"
+  },
+  "commonExtra": {
+    "uploadPhoto": "Subir foto",
+    "noActivity": "Sin actividad",
+    "noExpensesMonth": "Sin gastos este mes",
+    "maintenance": "Mantenimiento",
+    "fuel": "Combustible",
+    "expenses": "Gastos",
+    "documents": "Documentos",
+    "delete": "¿Eliminar?"
   }
 }

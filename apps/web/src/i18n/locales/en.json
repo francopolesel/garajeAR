@@ -106,5 +106,59 @@
     "noExpenses": "No expenses recorded.",
     "noReminders": "No reminders.",
     "noDocuments": "No documents."
+  },
+  "friends": {
+    "title": "Friends",
+    "search": "Search users",
+    "add": "Add",
+    "remove": "Remove",
+    "block": "Block",
+    "unblock": "Unblock",
+    "accept": "Accept",
+    "reject": "Reject",
+    "cancel": "Cancel",
+    "incoming": "Incoming requests",
+    "outgoing": "Outgoing requests",
+    "myFriends": "My friends",
+    "noFriends": "No friends yet",
+    "removeConfirm": "Remove friend?",
+    "searchPlaceholder": "Search users..."
+  },
+  "messages": {
+    "title": "Messages",
+    "conversations": "Conversations",
+    "noConversations": "No conversations",
+    "selectConversation": "Select a conversation",
+    "typeMessage": "Type a message...",
+    "send": "Send",
+    "deleted": "message deleted",
+    "edited": "edited",
+    "startChat": "Start chat",
+    "userId": "User ID"
+  },
+  "inspections": {
+    "title": "Technical inspections",
+    "new": "New",
+    "noInspections": "No inspections",
+    "deleteConfirm": "Delete?"
+  },
+  "finance": {
+    "title": "Historical finance",
+    "saveRate": "Save rate",
+    "calculate": "Calculate",
+    "nominal": "Nominal",
+    "adjusted": "Adjusted",
+    "source": "Source",
+    "indicesLoaded": "Indices loaded"
+  },
+  "commonExtra": {
+    "uploadPhoto": "Upload photo",
+    "noActivity": "No activity",
+    "noExpensesMonth": "No expenses this month",
+    "maintenance": "Maintenance",
+    "fuel": "Fuel",
+    "expenses": "Expenses",
+    "documents": "Documents",
+    "delete": "Delete?"
   }
 }

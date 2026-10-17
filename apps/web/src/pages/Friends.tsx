@@ -46,7 +46,7 @@ export default function Friends() {
     qc.invalidateQueries({ queryKey: ["friend-requests-outgoing"] });
   }
   async function removeFriend(id: string) {
-    if (!confirm("Remove friend?")) return;
+    if (!confirm(t("friends.removeConfirm"))) return;
     await apiDelete(`/friends/${id}`);
     qc.invalidateQueries({ queryKey: ["friends"] });
   }
@@ -57,12 +57,12 @@ export default function Friends() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Amigos</h1>
+      <h1 className="text-2xl font-bold">{t("friends.title")}</h1>
 
       <Card>
         <CardContent className="p-4 space-y-3">
           <div className="flex gap-2">
-            <Input placeholder="Buscar usuarios..." value={q} onChange={(e) => setQ(e.target.value)} />
+            <Input placeholder={t("friends.searchPlaceholder")} value={q} onChange={(e) => setQ(e.target.value)} />
             <Button onClick={doSearch}><Search className="h-4 w-4" /></Button>
           </div>
           {searchResults.map((u: any) => (
@@ -71,7 +71,7 @@ export default function Friends() {
                 <p className="font-medium">{u.displayName || u.name} <span className="text-xs text-gray-500">@{u.username}</span></p>
                 {u.bio && <p className="text-xs text-gray-500">{u.bio}</p>}
               </div>
-              <Button size="sm" onClick={() => sendRequest(u.id)}><UserPlus className="h-3 w-3" /> Agregar</Button>
+              <Button size="sm" onClick={() => sendRequest(u.id)}><UserPlus className="h-3 w-3" /> {t("friends.add")}</Button>
             </div>
           ))}
         </CardContent>
@@ -80,13 +80,13 @@ export default function Friends() {
       {incoming.length > 0 && (
         <Card>
           <CardContent className="p-4 space-y-2">
-            <h2 className="font-semibold">Solicitudes recibidas</h2>
+            <h2 className="font-semibold">{t("friends.incoming")}</h2>
             {incoming.map((r: any) => (
               <div key={r.id} className="flex items-center justify-between py-2">
                 <span>{r.sender?.displayName || r.sender?.name} @{r.sender?.username}</span>
                 <div className="flex gap-2">
-                  <Button size="sm" onClick={() => accept(r.id)}>Aceptar</Button>
-                  <Button size="sm" variant="outline" onClick={() => reject(r.id)}>Rechazar</Button>
+                  <Button size="sm" onClick={() => accept(r.id)}>{t("friends.accept")}</Button>
+                  <Button size="sm" variant="outline" onClick={() => reject(r.id)}>{t("friends.reject")}</Button>
                 </div>
               </div>
             ))}
@@ -97,11 +97,11 @@ export default function Friends() {
       {outgoing.length > 0 && (
         <Card>
           <CardContent className="p-4 space-y-2">
-            <h2 className="font-semibold">Solicitudes enviadas</h2>
+            <h2 className="font-semibold">{t("friends.outgoing")}</h2>
             {outgoing.map((r: any) => (
               <div key={r.id} className="flex items-center justify-between py-2">
                 <span>{r.recipient?.displayName || r.recipient?.name} @{r.recipient?.username}</span>
-                <Button size="sm" variant="outline" onClick={() => cancel(r.id)}>Cancelar</Button>
+                <Button size="sm" variant="outline" onClick={() => cancel(r.id)}>{t("friends.cancel")}</Button>
               </div>
             ))}
           </CardContent>
@@ -110,16 +110,16 @@ export default function Friends() {
 
       <Card>
         <CardContent className="p-4 space-y-2">
-          <h2 className="font-semibold flex items-center gap-2"><Users className="h-4 w-4" /> Mis amigos ({friends.length})</h2>
-          {friends.length === 0 ? <EmptyState title="Sin amigos todavía" /> : friends.map((f: any) => (
+          <h2 className="font-semibold flex items-center gap-2"><Users className="h-4 w-4" /> {t("friends.myFriends")} ({friends.length})</h2>
+          {friends.length === 0 ? <EmptyState title={t("friends.noFriends")} /> : friends.map((f: any) => (
             <div key={f.id} className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-800 last:border-0">
               <div>
                 <p className="font-medium">{f.displayName || f.name} <span className="text-xs text-gray-500">@{f.username}</span></p>
                 {f.bio && <p className="text-xs text-gray-500">{f.bio}</p>}
               </div>
               <div className="flex gap-2">
-                <Button size="sm" variant="outline" onClick={() => removeFriend(f.id)}>Eliminar</Button>
-                <Button size="sm" variant="ghost" onClick={() => block(f.id)} className="text-red-600"><Ban className="h-3 w-3" /></Button>
+                <Button size="sm" variant="outline" onClick={() => removeFriend(f.id)}>{t("friends.remove")}</Button>
+                <Button size="sm" variant="ghost" onClick={() => block(f.id)} className="text-red-600"><Ban className="h-3 w-3" /> {t("friends.block")}</Button>
               </div>
             </div>
           ))}

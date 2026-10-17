@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiGet, apiPost } from "../lib/api";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/Card";
@@ -6,6 +7,7 @@ import { Button } from "../components/ui/Button";
 import { Input, Select } from "../components/ui/Input";
 
 export default function Finance() {
+  const { t } = useTranslation();
   const qc = useQueryClient();
   const [rate, setRate] = useState<any>({ fromCurrency: "USD", toCurrency: "ARS", rate: "", rateType: "manual", quoteDate: new Date().toISOString().slice(0, 10) });
   const [inf, setInf] = useState<any>({ amount: "", country: "AR", series: "IPC", transactionYearMonth: "", referenceYearMonth: "" });
@@ -30,7 +32,7 @@ export default function Finance() {
 
   return (
     <div className="space-y-4 max-w-3xl">
-      <h1 className="text-2xl font-bold">Finanzas históricas</h1>
+      <h1 className="text-2xl font-bold">{t("finance.title")}</h1>
       <Card>
         <CardHeader><CardTitle>Tipo de cambio manual</CardTitle></CardHeader>
         <CardContent>

@@ -41,7 +41,7 @@ export default function Dashboard() {
                 <p className="text-xs text-gray-500">{m.vehicle?.name} · {new Date(m.serviceDate).toLocaleDateString()}</p>
               </div>
             ))}
-            {!d?.recentMaintenance?.length && <p className="text-sm text-gray-500">Sin actividad</p>}
+            {!d?.recentMaintenance?.length && <p className="text-sm text-gray-500">{t("commonExtra.noActivity")}</p>}
           </CardContent>
         </Card>
         <Card>
@@ -53,7 +53,7 @@ export default function Dashboard() {
                 <span className="font-semibold">{Number(m.total).toFixed(2)}</span>
               </div>
             ))}
-            {!d?.monthExpensesByCurrency?.length && <p className="text-sm text-gray-500">Sin gastos este mes</p>}
+            {!d?.monthExpensesByCurrency?.length && <p className="text-sm text-gray-500">{t("commonExtra.noExpensesMonth")}</p>}
           </CardContent>
         </Card>
       </div>
