@@ -1,6 +1,7 @@
 import React from "react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../lib/auth";
+import { Logo } from "../components/brand/Logo";
 import { useTranslation } from "react-i18next";
 import i18n from "../i18n";
 import { apiPatch } from "../lib/api";
@@ -40,7 +41,7 @@ export default function AppLayout() {
       {/* Sidebar */}
       <aside className={`fixed md:static inset-y-0 left-0 z-40 w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transform transition-transform ${open ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}>
         <div className="h-16 flex items-center px-5 border-b border-gray-200 dark:border-gray-800">
-          <span className="text-xl font-bold text-brand-600">GarajeAR</span>
+          <Logo variant="full" className="h-7" />
         </div>
         <nav className="p-3 space-y-1">
           {navItems.map((item) => (
@@ -85,7 +86,7 @@ export default function AppLayout() {
       <div className="flex-1 flex flex-col min-w-0">
         <header className="h-16 flex items-center px-4 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 md:hidden">
           <button onClick={() => setOpen(true)}><Menu className="h-5 w-5" /></button>
-          <span className="ml-3 font-bold text-brand-600">GarajeAR</span>
+          <span className="ml-3"><Logo variant="icon" className="h-6 w-6" /></span>
         </header>
         <main className="flex-1 p-4 md:p-6 overflow-auto">
           <Outlet />

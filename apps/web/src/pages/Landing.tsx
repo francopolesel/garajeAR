@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "../components/ui/Button";
+import { Logo } from "../components/brand/Logo";
 
 export default function Landing() {
   const { t } = useTranslation();
@@ -9,7 +10,7 @@ export default function Landing() {
     <div className="min-h-screen bg-white dark:bg-gray-950">
       <nav className="border-b border-gray-200 dark:border-gray-800">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-          <span className="text-xl font-bold text-brand-600">GarajeAR</span>
+          <Logo variant="full" className="h-8" />
           <div className="flex gap-3">
             <Link to="/login"><Button variant="ghost">{t("auth.login")}</Button></Link>
             <Link to="/register"><Button>{t("auth.register")}</Button></Link>

@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { Card, CardContent } from "../components/ui/Card";
+import { Logo } from "../components/brand/Logo";
 
 const schema = z.object({ email: z.string().email(), password: z.string().min(1) });
 
@@ -36,6 +37,7 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4">
       <Card className="w-full max-w-md">
         <CardContent className="p-8">
+          <div className="mb-6 flex justify-center"><Logo variant="full" className="h-10" /></div>
           <h1 className="text-2xl font-bold mb-6">{t("auth.login")}</h1>
           <form onSubmit={handleSubmit(onSubmit as any)} className="space-y-4">
             <Input label={t("auth.email")} type="email" {...register("email")} error={errors.email?.message as string} />
